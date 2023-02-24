@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1788462582514670145}
   - component: {fileID: 4962450923051113598}
+  - component: {fileID: -5628949274079986793}
   m_Layer: 0
-  m_Name: BulletHolder
+  m_Name: BulletPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +48,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1
+  _maxLifeTime: 10
+  _impactForce: 10
   _tail: {fileID: 2111550305714624281}
+  _impactVfx: {fileID: 8085428065128247234, guid: 0652c466590cc0e47a4ade5ec17cd701, type: 3}
+--- !u!114 &-5628949274079986793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2155201616845551223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180005d48b8ffc342a9ec37c190acc1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4839534073196807457
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,14 +120,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8865888398217856215}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.227}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1788462582514670145}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5183077745348252104
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -119,7 +135,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8865888398217856215}
-  m_Mesh: {fileID: -7204647971529134275, guid: ee85e3951158c88448cb4e11f9c00013, type: 3}
+  m_Mesh: {fileID: -7204647971529134275, guid: e0fcdf3fb9102e242b41f1b6102d2bd9, type: 3}
 --- !u!23 &6920074355798435074
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -140,7 +156,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: ee85e3951158c88448cb4e11f9c00013, type: 3}
+  - {fileID: 2100000, guid: b7c775964d5c8344e9acf32e9d90acf4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

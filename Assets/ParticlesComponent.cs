@@ -1,19 +1,21 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
-public class ParticlesComponent : MonoBehaviour
+public class ParticlesComponent : MonoBehaviour, ISelfDestructable
 {
-    private void OnEnable()
+    protected void OnEnable()
     {
         var particles = GetComponent<ParticleSystem>();
         particles.Play();
 
-        var particlesLifeTime = particles.main.duration + particles.main.startLifetime.constantMax;
+        ParticleSystem.MainModule main = particles.main;
+        var particlesLifeTime = main.duration + main.startLifetime.constantMax;
 
-        StartCoroutine(Destroy(particlesLifeTime));
+        StartCoroutine(Destruct(particlesLifeTime));
     }
 
-    private IEnumerator Destroy(float lifeDuration)
+    public IEnumerator Destruct(float lifeDuration)
     {
         yield return new WaitForSeconds(lifeDuration);
 

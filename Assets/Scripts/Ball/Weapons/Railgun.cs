@@ -47,7 +47,7 @@ namespace Ball
             Physics.Raycast(_shootFrom.position, _shootFrom.forward, out RaycastHit hit, _maxShootDistance);
             var foundColliders = Physics.OverlapSphere(hit.point, _explosionRadius);
 
-            Instantiate(_explosionVfx, hit.point, Quaternion.identity);
+            Instantiate(_explosionVfx, hit.point, _shootFrom.rotation);
 
             ExplodeAll(foundColliders, hit);
         }

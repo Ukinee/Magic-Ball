@@ -1,19 +1,20 @@
+using System;
 using UnityEngine;
 
 namespace ForceMovable
 {
-    public class Block : MonoBehaviour, IExplodeMovable
+    public class Block : MonoBehaviour, IExplodeMovable, IBulletMovable
     {
-        private Rigidbody _rigidbody;
-
-        private void Start()
-        {
-            _rigidbody = GetComponent<Rigidbody>();
-        }
+        [SerializeField] private Rigidbody _rigidbody;
 
         public void Explode(Vector3 direction, float force, float explosionRadius)
         {
             _rigidbody.AddExplosionForce(force, direction, explosionRadius);
+        }
+
+        public void BulletMove(Vector3 direction, float force)
+        {
+            _rigidbody.AddForce(direction * force, ForceMode.Impulse);
         }
     }
 }
