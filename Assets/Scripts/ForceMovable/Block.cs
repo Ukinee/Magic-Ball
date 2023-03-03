@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace ForceMovable
@@ -7,9 +6,9 @@ namespace ForceMovable
     {
         [SerializeField] private Rigidbody _rigidbody;
 
-        public void Explode(Vector3 direction, float force, float explosionRadius)
+        public void Explode(Vector3 epicenter, float force, float explosionRadius)
         {
-            _rigidbody.AddExplosionForce(force, direction, explosionRadius);
+            _rigidbody.AddExplosionForce(force, epicenter, explosionRadius);
         }
 
         public void BulletMove(Vector3 direction, float force)

@@ -1,4 +1,4 @@
-using Input;
+using MyInput;
 using UnityEngine;
 
 namespace Ball
@@ -8,7 +8,7 @@ namespace Ball
         [SerializeField] private InputSystem _inputSystem;
         [SerializeField] private float _forceMultiplier;
         [SerializeField] private Transform _cameraPosition;
-    
+
         private Rigidbody _rigidbody;
 
         private void Awake()
@@ -30,8 +30,10 @@ namespace Ball
             Vector3 frontDirection = new Vector3(view.x, 0, view.z).normalized;
             Vector3 sideDirection = Quaternion.Euler(0, 90, 0) * frontDirection;
 
-            _rigidbody.AddForce(_forceMultiplier * _inputSystem.Vertical * circleLength * frontDirection);
-            _rigidbody.AddForce(_forceMultiplier * _inputSystem.Horizontal * circleLength * sideDirection);
+            var localForceMultiplier = Time.deltaTime * _forceMultiplier * circleLength;
+
+            _rigidbody.AddForce(localForceMultiplier * _inputSystem.Vertical * frontDirection);
+            _rigidbody.AddForce(localForceMultiplier * _inputSystem.Horizontal * sideDirection);
         }
     }
 }

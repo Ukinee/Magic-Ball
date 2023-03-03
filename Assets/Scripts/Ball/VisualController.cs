@@ -1,4 +1,4 @@
-using Input;
+using MyInput;
 using UnityEngine;
 
 namespace Ball
@@ -18,7 +18,7 @@ namespace Ball
             _rigidbody.maxAngularVelocity = _maxRadiansPerSecond;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             _rigidbody.velocity = Vector3.zero;
             AddTorque();

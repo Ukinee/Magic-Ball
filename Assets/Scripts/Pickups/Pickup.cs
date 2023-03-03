@@ -1,4 +1,5 @@
 using Ball;
+using Ball.Statistics;
 using UnityEngine;
 
 namespace Pickups
@@ -9,6 +10,8 @@ namespace Pickups
     
         private void OnTriggerEnter(Collider other)
         {
+            Debug.Log("Pickup");
+            
             if (other.TryGetComponent(out ScoreSystem collector) == false) 
                 return;
         

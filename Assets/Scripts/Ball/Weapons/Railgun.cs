@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using ForceMovable;
-using Input;
+using MyInput;
 using UnityEngine;
 
 namespace Ball
@@ -15,6 +15,7 @@ namespace Ball
         [SerializeField] private float _explosionRadius = 3f;
         [SerializeField] private float _explosionForce = 20f;
         [SerializeField] private ParticleSystem _explosionVfx;
+        [SerializeField] private ParticleSystem _bulletHoleVfx;
 
         private float _currentChargeTime;
 
@@ -30,10 +31,14 @@ namespace Ball
 
         private void HandleInput()
         {
-            if (_inputSystem.LMB != 0)
+            if (_inputSystem.Lmb)
+            {
                 _currentChargeTime -= Time.deltaTime;
+            }
             else
+            {
                 SetCooldown();
+            }
 
             if (_currentChargeTime > 0)
                 return;
@@ -44,12 +49,20 @@ namespace Ball
 
         private void Shoot()
         {
-            Physics.Raycast(_shootFrom.position, _shootFrom.forward, out RaycastHit hit, _maxShootDistance);
-            var foundColliders = Physics.OverlapSphere(hit.point, _explosionRadius);
+            if (Physics.Raycast(_shootFrom.position, _shootFrom.forward, out RaycastHit hit, _maxShootDistance))
+            {
+                var foundColliders = Physics.OverlapSphere(hit.point, _explosionRadius);
+                float clipFixingValue = _explosionVfx.shape.radius / 2;
+                hit.point = (hit.normal * clipFixingValue) + hit.point;
+            
+                Instantiate(_explosionVfx, hit.point, _shootFrom.rotation);
+                Instantiate(_bulletHoleVfx, hit.point,
+                    Quaternion.LookRotation(-1 * hit.normal),
+                    hit.transform
+                );
 
-            Instantiate(_explosionVfx, hit.point, _shootFrom.rotation);
-
-            ExplodeAll(foundColliders, hit);
+                ExplodeAll(foundColliders, hit);
+            }
         }
 
         private void ExplodeAll(IEnumerable<Collider> foundColliders, RaycastHit hit)
