@@ -24,38 +24,6 @@ namespace IndependedScripts
             HandleImpact(other, currentEvent.velocity);
         }
 
-        private void OnParticleTrigger()
-        {
-            var particles = new List<ParticleSystem.Particle>();
-
-            _bulletsParticleSystem.GetTriggerParticles(
-                ParticleSystemTriggerEventType.Enter,
-                particles, 
-                out ParticleSystem.ColliderData colliderData);
-
-            for (var i = 0; i < particles.Count; i++)
-            {
-                ParticleSystem.Particle currentParticle = particles[i];
-                currentParticle.remainingLifetime = 0;
-                particles[i] = currentParticle;
-
-                SphereCollider sphere = colliderData.GetCollider(i, 0).GetComponent<SphereCollider>();
-
-                Vector3 spherePosition = sphere.transform.position;
-            
-                Vector3 projectedPoint = 
-                    (currentParticle.position 
-                     - spherePosition).normalized
-                    * sphere.radius * sphere.transform.lossyScale.y
-                    + spherePosition;
-            
-                Instantiate(_collisionBulletHoleVfx, projectedPoint,
-                    Quaternion.LookRotation(currentParticle.position - spherePosition));
-            }
-
-            _bulletsParticleSystem.SetTriggerParticles(ParticleSystemTriggerEventType.Enter, particles);
-        }
-
         private void CreateBulletHoleVfx(ParticleCollisionEvent currentEvent, GameObject other)
         {
             Instantiate(

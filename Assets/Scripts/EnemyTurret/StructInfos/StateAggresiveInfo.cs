@@ -4,24 +4,27 @@ namespace EnemyTurret.StructInfos
 {
     public struct StateAggresiveInfo
     {
-        public TargetTracker TargetTracker;
-        public MeshRenderer TurretGunMeshRenderer;
-        public Transform TurretHeadTarnsform;
-        public Transform TurretGunTarnsform;
-        public ParticleSystem ShootingParticleSystem;
+        public readonly TargetTracker TargetTracker;
+        public readonly MeshRenderer TurretGunMeshRenderer;
+        public readonly Transform TurretHeadTransform;
+        public readonly Transform TurretGunTransform;
+        public readonly ParticleSystem ShootingParticleSystem;
+        public readonly float RotationSpeed;
 
         public StateAggresiveInfo(
             ParticleSystem shootingParticleSystem, 
-            Transform turretGunTarnsform,
-            Transform turretHeadTarnsform, 
+            Transform turretGunTransform,
+            Transform turretHeadTransform, 
             MeshRenderer turretGunMeshRenderer, 
-            TargetTracker targetTracker)
+            TargetTracker targetTracker,
+            float rotationSpeed)
         {
             ShootingParticleSystem = shootingParticleSystem;
-            TurretGunTarnsform = turretGunTarnsform;
-            TurretHeadTarnsform = turretHeadTarnsform;
+            TurretGunTransform = turretGunTransform;
+            TurretHeadTransform = turretHeadTransform;
             TurretGunMeshRenderer = turretGunMeshRenderer;
             TargetTracker = targetTracker;
+            RotationSpeed = rotationSpeed;
         }
     }
 }

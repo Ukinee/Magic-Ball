@@ -1,4 +1,4 @@
-namespace EnemyTurret
+namespace EnemyTurret.TurretStates
 {
     public interface ITurretState
     {

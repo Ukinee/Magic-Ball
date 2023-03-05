@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using EnemyTurret.TurretStates;
 using UnityEngine;
 
 namespace EnemyTurret
@@ -12,9 +13,10 @@ namespace EnemyTurret
         private Dictionary<Type, ITurretState> _turretStatesMap;
         private ITurretState _currentState;
 
-        private void Start()
+        private void Awake()
         {
             _turretInfo = GetComponent<TurretInfo>();
+            _turretInfo.Initialize();
             
             InitializeStates();
             SetState<TurretStateIdle>();
@@ -24,13 +26,13 @@ namespace EnemyTurret
         {
             _turretStatesMap = new Dictionary<Type, ITurretState>
             {
-                [typeof(TurretStateIdle)] = new TurretStateIdle(_turretInfo.StateAggresiveInfo),
-                [typeof(TurretStateSearching)] = new TurretStateSearching(),
+                [typeof(TurretStateIdle)] = new TurretStateIdle(_turretInfo.StateIdleInfo),
+                [typeof(TurretStateSearching)] = new TurretStateSearching(_turretInfo.StateSearchingInfo),
                 [typeof(TurretStateAggressive)] = new TurretStateAggressive(_turretInfo.StateAggresiveInfo)
             };
         }
 
-        public void SetState<T>()
+        private void SetState<T>()
         {
             _currentState?.Exit();
             _currentState = _turretStatesMap[typeof(T)];
@@ -54,6 +56,9 @@ namespace EnemyTurret
 
         private void Update()
         {
+            if (_currentState == null)
+                Awake();
+            
             _currentState.Update();
         }
     }
