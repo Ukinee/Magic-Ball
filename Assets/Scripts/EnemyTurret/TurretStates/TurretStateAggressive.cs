@@ -28,44 +28,39 @@ namespace EnemyTurret.TurretStates
         {
             Transform gunTransform = _stateAggresiveInfo.TurretGunTransform;
             Transform headTransform = _stateAggresiveInfo.TurretHeadTransform;
-            
-            //Debug.DrawRay(gunTransform.position, Vector3.right);
 
-            RotatePart(headTransform, Vector3.up, 70);
-            RotatePart(gunTransform, Vector3.right, 70);
+            RotatePart(gunTransform, Vector3.right, 20);
+            RotatePart(headTransform, Vector3.up, 50);
         }
 
-        private void RotatePart(Transform partTransform, Vector3 constraints, float rotationSpeed)
+        private void RotatePart(Transform gunTransform, Vector3 constraint, float anglePerSecond)
         {
-            Vector3 direction = _stateAggresiveInfo.TargetTracker.Target.position - partTransform.position;
-            Quaternion rotation = partTransform.localRotation;
-            
-            GetNewRotation(rotation, direction, rotationSpeed).ToAngleAxis(out float angle, out Vector3 _);
+            var rotationDelta = anglePerSecond * Time.deltaTime;
 
-            Debug.DrawRay(partTransform.position, partTransform.forward);
-            
-            partTransform.Rotate(constraints * angle);
+            Vector3 targetDirection = _stateAggresiveInfo.TargetTracker.Target.position - gunTransform.position;
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+
+            targetRotation = ConstraintRotation(targetRotation, constraint);
+
+            gunTransform.localRotation = Quaternion.RotateTowards(
+                gunTransform.localRotation, 
+                targetRotation, 
+                rotationDelta);;
         }
-        
-        private Quaternion GetNewRotation(Quaternion rotation, Vector3 direction, float rotationSpeed)
+
+        private static Quaternion ConstraintRotation(Quaternion rotation, Vector3 constraint)
         {
-            var angleDelta = rotationSpeed * Time.deltaTime;
-            Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+            Vector3 eulerAngles = rotation.eulerAngles;
 
-            return Quaternion.RotateTowards(rotation, targetRotation, angleDelta);
+            eulerAngles.x *= constraint.x;
+            eulerAngles.y *= constraint.y;
+            eulerAngles.z *= constraint.z;
+
+            rotation.eulerAngles = eulerAngles;
+
+            return rotation;
         }
 
-        private Quaternion ConstraintRotation(Quaternion rotation, Vector3 constraints)
-        {
-            Vector3 rotationEuler = rotation.eulerAngles;
-
-            rotationEuler.x *= constraints.x;
-            rotationEuler.y *= constraints.y;
-            rotationEuler.z *= constraints.z;
-
-            return Quaternion.Euler(rotationEuler);
-        }
-        
         private void SetAggresiveColor()
         {
             _stateAggresiveInfo.TurretGunMeshRenderer.material.color = Color.red;
