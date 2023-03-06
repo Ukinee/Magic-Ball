@@ -7,10 +7,7 @@ namespace EnemyTurret.Utilities
         public void RotatePart(Vector3 targetPosition, Transform partTransform, Vector3 constraint, float anglePerSecond)
         {
             var rotationDelta = anglePerSecond * Time.deltaTime;
-
             Vector3 targetDirection = targetPosition - partTransform.position;
-            Debug.Log(targetDirection.magnitude);
-            
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
             targetRotation = ConstraintRotation(targetRotation, constraint);
