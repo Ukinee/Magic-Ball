@@ -1,5 +1,6 @@
 using EnemyTurret.StructInfos;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace EnemyTurret
 {
@@ -10,7 +11,7 @@ namespace EnemyTurret
         [SerializeField] private ParticleSystem _shootingParticleSystem;
         [SerializeField] private Transform _turretGunTarnsform;
         [SerializeField] private Transform _turretHeadTransform;
-        [SerializeField] private float _aggerssiveRotationSpeed;
+        [SerializeField] private float _upRotationSpeed;
 
         public StateAggresiveInfo StateAggresiveInfo;
         public StateIdleInfo StateIdleInfo;
@@ -24,7 +25,7 @@ namespace EnemyTurret
                 _turretHeadTransform,
                 _gunMeshRenderer, 
                 _targetTracker,
-                _aggerssiveRotationSpeed
+                _upRotationSpeed
             );
 
             StateSearchingInfo = new StateSearchingInfo(

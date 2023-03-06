@@ -9,7 +9,7 @@ namespace EnemyTurret.StructInfos
         public readonly Transform TurretHeadTransform;
         public readonly Transform TurretGunTransform;
         public readonly ParticleSystem ShootingParticleSystem;
-        public readonly float RotationSpeed;
+        public readonly float UpRotationSpeed;
 
         public StateAggresiveInfo(
             ParticleSystem shootingParticleSystem, 
@@ -17,14 +17,14 @@ namespace EnemyTurret.StructInfos
             Transform turretHeadTransform, 
             MeshRenderer turretGunMeshRenderer, 
             TargetTracker targetTracker,
-            float rotationSpeed)
+            float upRotationSpeed)
         {
             ShootingParticleSystem = shootingParticleSystem;
             TurretGunTransform = turretGunTransform;
             TurretHeadTransform = turretHeadTransform;
             TurretGunMeshRenderer = turretGunMeshRenderer;
             TargetTracker = targetTracker;
-            RotationSpeed = rotationSpeed;
+            UpRotationSpeed = upRotationSpeed;
         }
     }
 }

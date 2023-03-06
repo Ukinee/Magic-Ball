@@ -1,20 +1,34 @@
 using EnemyTurret.StructInfos;
-using Unity.Mathematics;
+using EnemyTurret.Utilities;
 using UnityEngine;
 
 namespace EnemyTurret.TurretStates
 {
     public class TurretStateAggressive : ITurretState
     {
+        private readonly TurretRotator _turretRotator = new();
         private readonly StateAggresiveInfo _stateAggresiveInfo;
+        private readonly Transform _gunTransform;
+        private readonly Transform _headTransform;
+        private readonly float _upRotationSpeed;
+        private readonly TargetTracker _targetTracker;
+        private  Transform _targetTransform;
 
         public TurretStateAggressive(StateAggresiveInfo stateAggresiveInfo)
         {
             _stateAggresiveInfo = stateAggresiveInfo;
+
+            _targetTracker = _stateAggresiveInfo.TargetTracker;
+            _gunTransform = _stateAggresiveInfo.TurretGunTransform;
+            _headTransform = _stateAggresiveInfo.TurretHeadTransform;
+            _upRotationSpeed = _stateAggresiveInfo.UpRotationSpeed;
         }
 
         public void Enter()
         {
+            _targetTransform = _targetTracker.Target;
+            
+            Debug.Log("There you are!");
             SetAggresiveColor();
             StartShooting();
         }
@@ -26,39 +40,15 @@ namespace EnemyTurret.TurretStates
 
         public void Update()
         {
-            Transform gunTransform = _stateAggresiveInfo.TurretGunTransform;
-            Transform headTransform = _stateAggresiveInfo.TurretHeadTransform;
-
-            RotatePart(gunTransform, Vector3.right, 20);
-            RotatePart(headTransform, Vector3.up, 50);
+            PerformRotation();
         }
 
-        private void RotatePart(Transform gunTransform, Vector3 constraint, float anglePerSecond)
+        private void PerformRotation()
         {
-            var rotationDelta = anglePerSecond * Time.deltaTime;
+            Vector3 position = _targetTransform.position;
 
-            Vector3 targetDirection = _stateAggresiveInfo.TargetTracker.Target.position - gunTransform.position;
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-
-            targetRotation = ConstraintRotation(targetRotation, constraint);
-
-            gunTransform.localRotation = Quaternion.RotateTowards(
-                gunTransform.localRotation, 
-                targetRotation, 
-                rotationDelta);;
-        }
-
-        private static Quaternion ConstraintRotation(Quaternion rotation, Vector3 constraint)
-        {
-            Vector3 eulerAngles = rotation.eulerAngles;
-
-            eulerAngles.x *= constraint.x;
-            eulerAngles.y *= constraint.y;
-            eulerAngles.z *= constraint.z;
-
-            rotation.eulerAngles = eulerAngles;
-
-            return rotation;
+            _turretRotator.RotatePart(position, _gunTransform, new Vector3(1, 1, 0), _upRotationSpeed);
+            _turretRotator.RotatePart(position, _headTransform, Vector3.up, _upRotationSpeed);
         }
 
         private void SetAggresiveColor()

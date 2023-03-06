@@ -39,7 +39,7 @@ namespace IndependedScripts
             _cachedSpeed = foundRigidbody.velocity.magnitude;
             var zPosition = transform.worldToLocalMatrix.MultiplyPoint3x4(other.transform.position).z;
 
-            if (zPosition < 0) //zPosition < 0
+            if (zPosition < 0)
             {
                 Teleport(foundRigidbody);
             }
