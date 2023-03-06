@@ -6,28 +6,15 @@ namespace EnemyTurret.TurretStates
 {
     public class TurretStateAggressive : ITurretState
     {
-        private readonly TurretRotator _turretRotator = new();
         private readonly StateAggresiveInfo _stateAggresiveInfo;
-        private readonly Transform _gunTransform;
-        private readonly Transform _headTransform;
-        private readonly float _upRotationSpeed;
-        private readonly TargetTracker _targetTracker;
-        private  Transform _targetTransform;
 
         public TurretStateAggressive(StateAggresiveInfo stateAggresiveInfo)
         {
             _stateAggresiveInfo = stateAggresiveInfo;
-
-            _targetTracker = _stateAggresiveInfo.TargetTracker;
-            _gunTransform = _stateAggresiveInfo.TurretGunTransform;
-            _headTransform = _stateAggresiveInfo.TurretHeadTransform;
-            _upRotationSpeed = _stateAggresiveInfo.UpRotationSpeed;
         }
 
         public void Enter()
         {
-            _targetTransform = _targetTracker.Target;
-            
             Debug.Log("There you are!");
             SetAggresiveColor();
             StartShooting();
@@ -45,10 +32,7 @@ namespace EnemyTurret.TurretStates
 
         private void PerformRotation()
         {
-            Vector3 position = _targetTransform.position;
 
-            _turretRotator.RotatePart(position, _gunTransform, new Vector3(1, 1, 0), _upRotationSpeed);
-            _turretRotator.RotatePart(position, _headTransform, Vector3.up, _upRotationSpeed);
         }
 
         private void SetAggresiveColor()

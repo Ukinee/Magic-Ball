@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace EnemyTurret.Utilities
 {
-    public class TurretRotator
+    public class TurretRotationCalclulator
     {
-        public void RotatePart(Vector3 targetPosition, Transform partTransform, Vector3 constraint, float anglePerSecond)
+        public Quaternion Calclulate(Vector3 targetPosition, Transform partTransform, Vector3 constraint, float anglePerSecond)
         {
             var rotationDelta = anglePerSecond * Time.deltaTime;
             Vector3 targetDirection = targetPosition - partTransform.position;
@@ -12,7 +12,7 @@ namespace EnemyTurret.Utilities
 
             targetRotation = ConstraintRotation(targetRotation, constraint);
 
-            partTransform.rotation = Quaternion.RotateTowards(
+            return Quaternion.RotateTowards(
                 partTransform.rotation, 
                 targetRotation, 
                 rotationDelta);
