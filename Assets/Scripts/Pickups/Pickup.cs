@@ -1,5 +1,4 @@
-using Ball;
-using Ball.Statistics;
+using Units.Ball.Statistics;
 using UnityEngine;
 
 namespace Pickups

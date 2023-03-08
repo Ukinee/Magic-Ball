@@ -1,8 +1,9 @@
+using Units.Interfaces;
 using UnityEngine;
 
 namespace ForceMovable
 {
-    public class Block : MonoBehaviour, IExplodeMovable, IBulletMovable
+    public class Block : MonoBehaviour, IExplodeMovable, IBulletMovable, ICanBeHit
     {
         [SerializeField] private Rigidbody _rigidbody;
 
@@ -13,7 +14,12 @@ namespace ForceMovable
 
         public void BulletMove(Vector3 direction, float force)
         {
-            _rigidbody.AddForce(direction * force, ForceMode.Impulse);
+            _rigidbody.AddForce(direction * force);
+        }
+
+        public void HandleHit(Vector3 direction, int amount)
+        {
+            BulletMove(direction, amount);
         }
     }
 }

@@ -1,12 +1,10 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace IndependedScripts
 {
     public class Portal : MonoBehaviour
     {
         [SerializeField] private Portal _connectedPortal;
-        [SerializeField] private UnityEvent<Quaternion> _teleporting;
 
         private bool _isTeleported;
         private float _cachedSpeed;

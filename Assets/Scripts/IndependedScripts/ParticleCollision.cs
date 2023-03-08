@@ -1,13 +1,15 @@
 using System.Collections.Generic;
 using ForceMovable;
+using Units.Interfaces;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace IndependedScripts
 {
     public class ParticleCollision : MonoBehaviour
     {
         [SerializeField] private ParticleSystem _collisionBulletHoleVfx;
-        [SerializeField] private float _impactForce;
+        [SerializeField] private int _damage;
 
         private ParticleSystem _bulletsParticleSystem;
 
@@ -36,9 +38,9 @@ namespace IndependedScripts
 
         private void HandleImpact(GameObject other, Vector3 direction)
         {
-            if (other.TryGetComponent(out IBulletMovable movable))
+            if (other.TryGetComponent(out ICanBeHit movable))
             {
-                movable.BulletMove(direction.normalized, _impactForce);
+                movable.HandleHit(direction, _damage);
             }
         }
 
